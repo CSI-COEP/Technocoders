@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-STATE_CHOICES = (
-    ("Andhra Pradesh", "Andhra Pradesh"), #todo: add all states
-)
-
 class ContractorUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     mobile = models.CharField(max_length=10, null=True)
@@ -20,9 +16,9 @@ class GovernmentUser(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     mobile = models.CharField(max_length=10, null=True)
     image = models.FileField(null=True)
-    #todo: make  
-    state = models.CharField(max_length=15, null=True)
+    state = models.CharField(max_length=30, null=True)
     type = models.CharField(max_length=15, null=True)
+    #todo: verification document part left 
     def _str_(self):
         return self.user.username
 

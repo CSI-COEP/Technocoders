@@ -7,6 +7,7 @@ from django.contrib.auth import login
 from django.contrib.auth import logout
 from datetime import date
 
+
 def index(request):
     return render(request, 'index.html')
 
@@ -22,10 +23,11 @@ def contractor_signup(request):
         comp = request.POST['company']
         try:
             user = User.objects.create_user(first_name=f,last_name=l, username=e, password=p)
-            StudentUser.objects.create(user=user, mobile=con, image=i, company=comp, type="contractor")
+            ContractorUser.objects.create(user=user, mobile=con, image=i, company=comp, type="contractor")
             error = "no"
-        except:
+        except Exception as e:
             error = "yes"
+            print(e)
     d = {'error' :error}
     return render(request, 'cregister.html',d)
 
@@ -62,10 +64,11 @@ def government_signup(request):
         state = request.POST['state']
         try:
             user = User.objects.create_user(first_name=f,last_name=l, username=e, password=p)
-            GovernmentUser.objects.create(user=user, mobile=con, image=i, gender=gen, state=state, type ="government")
+            GovernmentUser.objects.create(user=user, mobile=con, image=i, state=state, type ="government")
             error = "no"
-        except:
+        except Exception as e:
             error = "yes"
+            print(e)
     d = {'error' :error}
     return render(request, 'gregister.html',d)
 
@@ -95,7 +98,7 @@ def contractor_home(request):
         return redirect('contractor_login')
     user = request.user
     contractor = ContractorUser.objects.get(user=user)
-    d = {'contractor': startup}
+    d = {'contractor': contractor}
     return render(request, 'chome.html', d)
 
 
@@ -104,7 +107,7 @@ def government_home(request):
         return redirect('government_login')
     user = request.user
     government = GovernmentUser.objects.get(user=user)
-    d = {'government': startup}
+    d = {'government': government}
     return render(request, 'ghome.html', d)
 
 
