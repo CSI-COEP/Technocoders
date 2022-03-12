@@ -40,4 +40,6 @@ urlpatterns = [
          name="contractor_contractslist"),
     #path('user_apply', user_apply, name="user_apply"),
     path('contractors_applied', contractors_applied, name="contractors_applied"),
+    path('assigned_contractslist', assigned_contractslist,
+         name="assigned_contractslist"),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

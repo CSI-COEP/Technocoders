@@ -125,7 +125,24 @@ def contracts_list(request):
     pass
 
 def government_changepassword(request):
-    pass
+    if not request.user.is_authenticated:
+        return redirect('government_login')
+    error = ""
+    if request.method == 'POST':
+        c = request.POST['currentpassword']
+        n = request.POST['newpassword']
+        try:
+            u = User.objects.get(id=request.user.id)
+            if u.check_password(c):
+                u.set_password(n)
+                u.save()
+                error = "no"
+            else:
+                error = "not"
+        except:
+            error = "yes"
+    d = {'error': error}
+    return render(request, 'gchangepassword.html', d)
 
 def contractors_applied(request):
     pass
@@ -133,7 +150,24 @@ def contractors_applied(request):
 
 #Contractors Functions
 def contractor_changepassword(request):
-    pass
+    if not request.user.is_authenticated:
+        return redirect('contractor_login')
+    error = ""
+    if request.method == 'POST':
+        c = request.POST['currentpassword']
+        n = request.POST['newpassword']
+        try:
+            u = User.objects.get(id=request.user.id)
+            if u.check_password(c):
+                u.set_password(n)
+                u.save()
+                error = "no"
+            else:
+                error = "not"
+        except:
+            error = "yes"
+    d = {'error': error}
+    return render(request, 'cchangepassword.html', d)
 
 def contractor_contractslist(request):
     pass
