@@ -1,0 +1,57 @@
+{% load static %}
+
+{% block body %}
+
+{% include 'navigation.html' %}
+
+<style>
+  .container{
+      max-width : 90%;
+  }
+
+  .content{
+      text-align : center;
+      position : absolute;
+      bottom : 0;
+      background : rgba(0,0,0,0.5);
+      color : white;
+      height : 30px; 
+      width : 91%;
+  }
+
+    #special2{
+        text-align: center;
+        letter-spacing: 0px;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 50px;
+        color: blue;
+        margin-top : 5;
+    }
+
+    .blocktext{
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    line-height: 150%;
+    font-size: 120%;
+    text-align: center;
+    }
+
+
+</style>
+
+<div class="container mt-10">
+    <br>
+    <br>
+ <h1 class="text-center">Government Contract Management System</h1>
+ <h4 class="text-center">Manage & Store Government Contracts using Blockchain</h4>
+ <br>
+  <p class="blocktext">Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam fugiat facere quam neque. Harum placeat nemo voluptatibus pariatur nostrum est suscipit dignissimos non maiores doloribus porro similique, adipisci amet quae quas. Debitis voluptas impedit cupiditate eligendi quas atque velit hic doloribus soluta officia vero provident, minus necessitatibus. Veniam delectus nostrum esse accusantium quisquam! Ut quaerat aliquid laborum iure, ab neque!</p>
+    <br>
+</div>
+
+ <br>
+
+{% endblock %}

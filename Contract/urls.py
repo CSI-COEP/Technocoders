@@ -15,7 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from main.views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    path('', index, name="index"),
+    path('contractor_login', contractor_login, name="contractor_login"),
+    path('government_login', government_login, name="government_login"),
+    path('contractor_signup', contractor_signup, name="contractor_signup"),
+    path('government_signup', government_signup, name="government_signup"),
+    path('contractor_home', contractor_home, name="contractor_home"),
+    path('government_home', government_home, name="government_home"),
+    path('Logout', Logout, name="Logout"),
+]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
