@@ -114,3 +114,29 @@ def government_home(request):
 def Logout(request):
     logout(request)
     return redirect('index')
+
+
+#Government functions 
+
+def add_contract(request):
+    pass
+
+def contracts_list(request):
+    pass
+
+def government_changepassword(request):
+    pass
+
+def contractors_applied(request):
+    pass
+
+
+#Contractors Functions
+def contractor_changepassword(request):
+    pass
+
+def contractor_contractslist(request):
+    pass
+
+def assigned_contractslist(request):
+    pass
