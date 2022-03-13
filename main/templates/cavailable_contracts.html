@@ -40,7 +40,7 @@
         <td>{{i.location}}</td>
         <td>{{i.description}}</td>
         <td>
-          <a href="{% url 'apply_contract' %}" class="btn btn-success btn-sm"
+          <a href="{% url 'apply_contract' forloop.counter %}" class="btn btn-success btn-sm"
             >Apply</a
           >
         </td>

@@ -271,10 +271,23 @@ def assigned_contractslist(request):
     pass
 
 
-def apply_contract(request):
+def apply_contract(request, pid):
     if not request.user.is_authenticated:
         return redirect('contractor_login')
+    error = ""
     user = request.user
     contractor = ContractorUser.objects.get(user=user)
-    d = {'contractor': contractor}
+    if request.method == 'POST':
+        amt = request.POST['amount']
+        quot = request.FILES['test']
+        contractor.amount = amt
+        contractor.quot_doc = quot
+        contractor.contr = pid
+        try:
+            contractor.save()
+            error = "no"
+        except:
+            error = "yes"
+
+    d = {'error': error, 'contractor': contractor}
     return render(request, 'capply_contract.html', d)

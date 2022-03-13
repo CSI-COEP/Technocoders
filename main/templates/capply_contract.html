@@ -16,7 +16,7 @@
 </marquee>
 <hr>
 
-<div class="container mt-5 ml-30" onsubmit="return checkpass();">
+<div class="container mt-5 ml-30">
 <div class="row">
    <div class="col-md-12">
     <form  name="signup" method='post' enctype="multipart/form-data">
@@ -68,6 +68,17 @@
 </div>
 </div>
 </div>
+{% ifequal error "no" %}
+<script>
+    alert("You have successfully applied for the Contract");
+    window.location = ('{% url "contractor_contractslist" %}')
+</script>
+{% endifequal %}
 
+{% ifequal error "yes" %}
+<script>
+    alert("Something went Wrong,Try again...");
+</script>
+{% endifequal %}
 
 {% endblock %}
