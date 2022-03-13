@@ -119,9 +119,80 @@ def Logout(request):
 #Government functions 
 
 def add_contract(request):
-    pass
+    if not request.user.is_authenticated:
+        return redirect('government_login')
+    error = ""
+    if request.method == 'POST':
+        ct = request.POST['contract_title']
+        sd = request.POST['startdate']
+        ed = request.POST['enddate']
+        budg = request.POST['budget']
+        cd = request.FILES['cd'] 
+        loc = request.POST['location']
+        des = request.POST['description']
+        user = request.user 
+        govt = GovernmentUser.objects.get(user=user)
+        try:
+            Contract.objects.create(government=govt, start_date=sd, end_date=ed, title=ct, doc=cd,
+                               description=des, location=loc, creationdate=date.today(), type="contract")
+            error = "no"
+        except Exception as e:
+            error = "yes"
+            print(e)
+    d = {'error': error}
+    return render(request, 'gadd_contract.html', d)
 
-def contracts_list(request):
+def created_contracts_list(request):
+    if not request.user.is_authenticated:
+        return redirect('government_login')
+    user = request.user
+    govt = GovernmentUser.objects.get(user=user)
+    cont = Contract.objects.filter(government=govt)
+    d = {'contract': cont}
+    return render(request, 'gcreated_contracts_list.html', d)
+
+def edit_contract(request, pid):
+    if not request.user.is_authenticated:
+        return redirect('government_login')
+    error = ""
+    contract = Contract.objects.get(id=pid)
+    if request.method == 'POST':
+        jt = request.POST['contract_title']
+        sd = request.POST['startdate']
+        ed = request.POST['enddate']
+        budg = request.POST['budget']
+        loc = request.POST['location']
+        des = request.POST['description']
+
+        contract.title = jt
+        contract.budget = budg
+        contract.location = loc
+        contract.description = des
+        try:
+            contract.save()
+            error = "no"
+        except:
+            error = "yes"
+        if sd:
+            try:
+                contract.start_date = sd
+                contract.save()
+            except:
+                pass
+        else:
+            pass
+        if ed:
+            try:
+                contract.end_date = ed
+                contract.save()
+            except:
+                pass
+        else:
+            pass
+    d = {'error': error, 'contract': contract}
+    return render(request, 'gedit_contract.html', d)
+
+def delete_contract(request, pid):
     pass
 
 def government_changepassword(request):

@@ -26,11 +26,11 @@ class GovernmentUser(models.Model):
 class Contract(models.Model):
     government = models.ForeignKey(GovernmentUser, on_delete=models.CASCADE)
     start_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateField(null=True)
     title = models.CharField(max_length=100)
-    budget = models.FloatField(max_length=20)
-    image = models.FileField() #optional
-    description = models.CharField(max_length=300)
+    budget = models.FloatField(max_length=20, null=True)
+    doc = models.FileField(null=True)
+    description = models.CharField(max_length=300, null=True)
     location = models.CharField(max_length=100)
     creationdate = models.DateField()
     type = models.CharField(max_length=15, null=True)
