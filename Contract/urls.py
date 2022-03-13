@@ -39,7 +39,7 @@ urlpatterns = [
     path('delete_contract/<int:pid>', delete_contract, name="delete_contract"),
     path('contractor_contractslist', contractor_contractslist,
          name="contractor_contractslist"),
-    #path('user_apply', user_apply, name="user_apply"),
+    path('apply_contract', apply_contract , name="apply_contract"),
     path('contractors_applied', contractors_applied, name="contractors_applied"),
     path('assigned_contractslist', assigned_contractslist,
          name="assigned_contractslist"),

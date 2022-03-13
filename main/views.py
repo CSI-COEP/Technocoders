@@ -11,50 +11,55 @@ from datetime import date
 def index(request):
     return render(request, 'index.html')
 
+
 def contractor_signup(request):
-    error=""
-    if request.method=='POST':
-        f = request.POST['fname'];
-        l = request.POST['lname'];
-        i = request.FILES['image'];
-        p = request.POST['pwd'];
-        e = request.POST['email'];
-        con = request.POST['contact'];
+    error = ""
+    if request.method == 'POST':
+        f = request.POST['fname']
+        l = request.POST['lname']
+        i = request.FILES['image']
+        p = request.POST['pwd']
+        e = request.POST['email']
+        con = request.POST['contact']
         comp = request.POST['company']
         try:
-            user = User.objects.create_user(first_name=f,last_name=l, username=e, password=p)
-            ContractorUser.objects.create(user=user, mobile=con, image=i, company=comp, type="contractor")
+            user = User.objects.create_user(
+                first_name=f, last_name=l, username=e, password=p)
+            ContractorUser.objects.create(
+                user=user, mobile=con, image=i, company=comp, type="contractor")
             error = "no"
         except Exception as e:
             error = "yes"
             print(e)
-    d = {'error' :error}
-    return render(request, 'cregister.html',d)
+    d = {'error': error}
+    return render(request, 'cregister.html', d)
+
 
 def contractor_login(request):
     error = ""
     if request.method == "POST":
-       u = request.POST['uname']
-       p = request.POST['pwd']
-       user = authenticate(username=u, password=p)
-       if user:
-           try:
-               user1 = ContractorUser.objects.get(user=user)
-               if user1.type == "contractor":
-                   login(request, user)
-                   error = "no"
-               else:
-                   error = "yes"
-           except:
-               error = "yes"
-       else:
-           error = "yes"
+        u = request.POST['uname']
+        p = request.POST['pwd']
+        user = authenticate(username=u, password=p)
+        if user:
+            try:
+                user1 = ContractorUser.objects.get(user=user)
+                if user1.type == "contractor":
+                    login(request, user)
+                    error = "no"
+                else:
+                    error = "yes"
+            except:
+                error = "yes"
+        else:
+            error = "yes"
     d = {'error': error}
     return render(request, 'clogin.html', d)
 
+
 def government_signup(request):
-    error=""
-    if request.method=='POST':
+    error = ""
+    if request.method == 'POST':
         f = request.POST['fname']
         l = request.POST['lname']
         i = request.FILES['image']
@@ -63,35 +68,39 @@ def government_signup(request):
         con = request.POST['contact']
         state = request.POST['state']
         try:
-            user = User.objects.create_user(first_name=f,last_name=l, username=e, password=p)
-            GovernmentUser.objects.create(user=user, mobile=con, image=i, state=state, type ="government")
+            user = User.objects.create_user(
+                first_name=f, last_name=l, username=e, password=p)
+            GovernmentUser.objects.create(
+                user=user, mobile=con, image=i, state=state, type="government")
             error = "no"
         except Exception as e:
             error = "yes"
             print(e)
-    d = {'error' :error}
-    return render(request, 'gregister.html',d)
+    d = {'error': error}
+    return render(request, 'gregister.html', d)
+
 
 def government_login(request):
     error = ""
     if request.method == "POST":
-       u = request.POST['uname']
-       p = request.POST['pwd']
-       user = authenticate(username=u, password=p)
-       if user:
-           try:
-               user1 = GovernmentUser.objects.get(user=user)
-               if user1.type == "government":
-                   login(request, user)
-                   error = "no"
-               else:
-                   error = "yes"
-           except:
-               error = "yes"
-       else:
-           error = "yes"
+        u = request.POST['uname']
+        p = request.POST['pwd']
+        user = authenticate(username=u, password=p)
+        if user:
+            try:
+                user1 = GovernmentUser.objects.get(user=user)
+                if user1.type == "government":
+                    login(request, user)
+                    error = "no"
+                else:
+                    error = "yes"
+            except:
+                error = "yes"
+        else:
+            error = "yes"
     d = {'error': error}
     return render(request, 'glogin.html', d)
+
 
 def contractor_home(request):
     if not request.user.is_authenticated:
@@ -116,7 +125,7 @@ def Logout(request):
     return redirect('index')
 
 
-#Government functions 
+# Government functions
 
 def add_contract(request):
     if not request.user.is_authenticated:
@@ -127,20 +136,21 @@ def add_contract(request):
         sd = request.POST['startdate']
         ed = request.POST['enddate']
         budg = request.POST['budget']
-        cd = request.FILES['cd'] 
+        cd = request.FILES['cd']
         loc = request.POST['location']
         des = request.POST['description']
-        user = request.user 
+        user = request.user
         govt = GovernmentUser.objects.get(user=user)
         try:
             Contract.objects.create(government=govt, start_date=sd, end_date=ed, title=ct, doc=cd,
-                               description=des, location=loc, creationdate=date.today(), type="contract")
+                                    description=des, location=loc, creationdate=date.today(), type="contract")
             error = "no"
         except Exception as e:
             error = "yes"
             print(e)
     d = {'error': error}
     return render(request, 'gadd_contract.html', d)
+
 
 def created_contracts_list(request):
     if not request.user.is_authenticated:
@@ -150,6 +160,7 @@ def created_contracts_list(request):
     cont = Contract.objects.filter(government=govt)
     d = {'contract': cont}
     return render(request, 'gcreated_contracts_list.html', d)
+
 
 def edit_contract(request, pid):
     if not request.user.is_authenticated:
@@ -192,8 +203,18 @@ def edit_contract(request, pid):
     d = {'error': error, 'contract': contract}
     return render(request, 'gedit_contract.html', d)
 
+
+def contractors_applied(request):
+    if not request.user.is_authenticated:
+        return redirect('government_login')
+    contractor = ContractorUser.objects.all()
+    d = {'contractor': contractor}
+    return render(request, 'gcontractors_applied.html', d)
+
+
 def delete_contract(request, pid):
     pass
+
 
 def government_changepassword(request):
     if not request.user.is_authenticated:
@@ -215,11 +236,8 @@ def government_changepassword(request):
     d = {'error': error}
     return render(request, 'gchangepassword.html', d)
 
-def contractors_applied(request):
-    pass
 
-
-#Contractors Functions
+# Contractors Functions
 def contractor_changepassword(request):
     if not request.user.is_authenticated:
         return redirect('contractor_login')
@@ -240,8 +258,23 @@ def contractor_changepassword(request):
     d = {'error': error}
     return render(request, 'cchangepassword.html', d)
 
+
 def contractor_contractslist(request):
-    pass
+    if not request.user.is_authenticated:
+        return redirect('contractor_login')
+    contract = Contract.objects.all()
+    d = {'contract': contract}
+    return render(request, 'cavailable_contracts.html', d)
+
 
 def assigned_contractslist(request):
     pass
+
+
+def apply_contract(request):
+    if not request.user.is_authenticated:
+        return redirect('contractor_login')
+    user = request.user
+    contractor = ContractorUser.objects.get(user=user)
+    d = {'contractor': contractor}
+    return render(request, 'capply_contract.html', d)
