@@ -7,6 +7,7 @@ class ContractorUser(models.Model):
     image = models.FileField(null=True)
     company = models.CharField(max_length=30, null=True)
     #todo: verification document part left 
+    amount = models.FloatField(max_length=20, null=True)
     type = models.CharField(max_length=15, null=True)
     def _str_(self):
         return self.user.username

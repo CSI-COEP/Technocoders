@@ -45,7 +45,7 @@
   >
 </form>
 <br /><br />
-
+{% include 'footer.html' %}
 {% ifequal error "no" %}
 <script>
   alert("Login Successful");
@@ -55,4 +55,5 @@
 <script>
   alert("Invalid Login Crentials");
 </script>
-{% endifequal %} {% endblock %}
+{% endifequal %} 
+{% endblock %}
